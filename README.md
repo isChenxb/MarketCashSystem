@@ -1,6 +1,6 @@
 # MarketCashSystem
 一个简易的超市收银系统
-运用MVC设计模式，数据库访问使用jdbc。
+<p>运用MVC设计模式，数据库访问使用jdbc。</p>
 实现了超市收银、查看指定日期销售数据、将销售数据输出到文件或者Excel表格、从文件或者Excel表格导入商品、模糊查询商品列表等功能。
 1.数据库连接信息保存在DBMessage.xml文件中
 2.需导入系统的xls文件及txt文件要放入importFile文件夹
