@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMessage>
+               <DBName>MySQL</DBName>
+               <driverName>com.mysql.jdbc.Driver</driverName>
+               <url>jdbc:mysql://127.0.0.1:3306/sale_demo?useUnicode=true&amp;characterEncoding=utf-8</url>
+               <user>root</user>
+               <password>biaoge1994</password>
+       
+</DBMessage>
