@@ -16,19 +16,10 @@ public class SystemDriver {
 		// TODO Auto-generated method stub
 		LoginView lv=new LoginView();
         Controller con=new Controller();
-        //统计用户登录次数times
-        int times=0;
         while (true){
         	UserVo user=lv.display();
         	if (con.loginRequestProcess(user)){
         		break;     //用户登录成功则跳出循环
-        	}else{
-        		times++;
-        		if (times==3){
-        			System.out.println("最多只能尝试输入账号密码3次，程序退出。");
-        			return; 
-        		}
-        		continue;
         	}
         }
         

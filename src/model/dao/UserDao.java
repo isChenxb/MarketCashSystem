@@ -10,8 +10,17 @@ import model.vo.UserVo;
 
 //封装的是user对象的所有操作,一个方法对应一个具体的业务逻辑
 public class UserDao {
+	//用户登录次数
+	private int loginTimes = 1;
+	public int getLoginTimes() {
+		return loginTimes;
+	}
 	//实现的是用户登录的判断
 	public boolean canLogin(UserVo user) throws Exception{
+		if (loginTimes >= 3) {
+			System.out.println("最多只能尝试输入账号密码3次，程序退出。");
+			System.exit(1);
+		}
 		boolean ret=false;
 		DBManager db=new DBManager();
 		Encription ep=new Encription();
@@ -24,6 +33,8 @@ public class UserDao {
 		ResultSet rs=db.executeQuery(sql);
 		if (rs.next()){
 			ret=true;
+		}else {
+			loginTimes++;
 		}
 //		String sql="SELECT * FROM tuser WHERE user_account='"+userAccount+"'";
 //		ResultSet rs=db.executeQuery(sql);
