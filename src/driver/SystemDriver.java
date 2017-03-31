@@ -16,17 +16,26 @@ public class SystemDriver {
 		// TODO Auto-generated method stub
 		LoginView lv=new LoginView();
         Controller con=new Controller();
+        //ç»Ÿè®¡ç”¨æˆ·ç™»å½•æ¬¡æ•°times
+        int times=0;
         while (true){
         	UserVo user=lv.display();
         	if (con.loginRequestProcess(user)){
-        		break;     //ÓÃ»§µÇÂ¼³É¹¦ÔòÌø³öÑ­»·
+        		break;     //ç”¨æˆ·ç™»å½•æˆåŠŸåˆ™è·³å‡ºå¾ªç¯
+        	}else{
+        		times++;
+        		if (times==3){
+        			System.out.println("æœ€å¤šåªèƒ½å°è¯•è¾“å…¥è´¦å·å¯†ç 3æ¬¡ï¼Œç¨‹åºé€€å‡ºã€‚");
+        			return; 
+        		}
+        		continue;
         	}
         }
         
-        //Ñ­»·Êä³öÖ÷²Ëµ¥
+        //å¾ªç¯è¾“å‡ºä¸»èœå•
         MenuView mv=new MenuView();
         while(con.mainMenuRequestProcess(mv.display(con.getUser()))){
-        	//ÈôÓÃ»§²»Ñ¡ÔñÍË³öÏî£¬ÔòÖ´ĞĞÍêÓÃ»§ÇëÇóºó¼ÌĞøÊä³öÖ÷²Ëµ¥
+        	//è‹¥ç”¨æˆ·ä¸é€‰æ‹©é€€å‡ºé¡¹ï¼Œåˆ™æ‰§è¡Œå®Œç”¨æˆ·è¯·æ±‚åç»§ç»­è¾“å‡ºä¸»èœå•
         }
        
 	}

@@ -1,8 +1,10 @@
 package model.dao;
 
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
+
 
 import util.DBManager;
 import util.Encription;
@@ -10,44 +12,31 @@ import model.vo.UserVo;
 
 //封装的是user对象的所有操作,一个方法对应一个具体的业务逻辑
 public class UserDao {
-	//用户登录次数
-	private int loginTimes = 1;
-	public int getLoginTimes() {
-		return loginTimes;
-	}
 	//实现的是用户登录的判断
-	public boolean canLogin(UserVo user) throws Exception{
-		if (loginTimes >= 3) {
-			System.out.println("最多只能尝试输入账号密码3次，程序退出。");
-			System.exit(1);
-		}
+	public UserVo Login(UserVo user) throws Exception{
 		boolean ret=false;
 		DBManager db=new DBManager();
 		Encription ep=new Encription();
 		String userAccount=user.getUserAccount();
 		String password=user.getPassword();
 		password=ep.md5Encode(password);
-		//
-		String sql="SELECT * FROM tuser WHERE user_account='"+userAccount+
-				"' and user_Password='"+password+"'";
-		ResultSet rs=db.executeQuery(sql);
+		String sql="SELECT * FROM tuser WHERE user_account=?";
+		PreparedStatement pst = db.getConnection().prepareStatement(sql);
+		pst.setString(1 , userAccount);
+		ResultSet rs= pst.executeQuery();
+		String realUserPassword="";
 		if (rs.next()){
-			ret=true;
-		}else {
-			loginTimes++;
+			realUserPassword=rs.getString("user_password");
 		}
-//		String sql="SELECT * FROM tuser WHERE user_account='"+userAccount+"'";
-//		ResultSet rs=db.executeQuery(sql);
-//		String realUserPassword="";
-//		if (rs.next()){
-//			realUserPassword=rs.getString("user_password");
-//		}
-//		if (password.equals(realUserPassword)){
-//			ret=true;
-//		}
+		if (password.equals(realUserPassword)){
+			user.setChrName(rs.getString("user_chrname"));
+			user.setRole(rs.getString("user_role"));
+		} else 
+			user = null;
+		pst.close();
 		rs.close();
 		db.close();
-		return ret;
+		return user;
 		
 	}
 	

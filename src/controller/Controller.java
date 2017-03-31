@@ -19,35 +19,22 @@ import model.vo.UserVo;
 //控制器，接收所有输入界面的请求，根据不同的请求来决定将请求转发给相应的dao来实现处理
 public class Controller {
 	UserVo user;
-	private UserDao dao = new UserDao();
+
 	public UserVo getUser() {
 		return user;
 	}
-
 	// 一个方法对应一个具体的请求
 
 	// 实现登陆请求的转发
 	public boolean loginRequestProcess(UserVo user) throws Exception {
 		boolean flag = true;
-		if (dao.canLogin(user)) { // 登陆成功,显示主菜单
-
-			DBManager db = new DBManager();
-			// 若登录成功则将user表中的信息赋值给对象user
-			String sql = "SELECT * FROM tuser WHERE user_account='"
-					+ user.getUserAccount() + "'";
-			ResultSet rs = db.executeQuery(sql);
-			if (rs.next()) {
-				user.setChrName(rs.getString("user_chrname"));
-				user.setRole(rs.getString("user_role"));
-				this.user = user;
-			}
-			db.close();
-			return flag;
-		} else { // 登陆不成功，显示错误提示
-			System.out.println("用户名或密码错误！您还有" + (4-dao.getLoginTimes()) + "次登录机会");
+		UserDao dao = new UserDao();
+		this.user = dao.Login(user);
+		if (this.user == null) {// 登陆不成功，显示错误提示
+			System.out.println("用户名或密码错误！");
 			flag = false;
-			return flag;
 		}
+		return flag;
 	}
 
 	// 实现主菜单选择请求的转发
@@ -114,8 +101,7 @@ public class Controller {
 	}
 
 	// 实现商品维护子菜单请求的转发
-	public void importSubMenuRequestProcess(int choice) throws BiffException,
-			IOException, SQLException {
+	public void importSubMenuRequestProcess(int choice) throws BiffException, IOException, SQLException {
 		ProductDao proDao = new ProductDao();
 		switch (choice) {
 		case 1: {
@@ -143,8 +129,7 @@ public class Controller {
 
 	// 实现数据导出子菜单的转发
 	public void exportSubMenuRequestProcess(int choice)
-			throws RowsExceededException, WriteException, IOException,
-			SQLException {
+			throws RowsExceededException, WriteException, IOException, SQLException {
 		SaleDao saleDao = new SaleDao();
 		switch (choice) {
 		case 1: {

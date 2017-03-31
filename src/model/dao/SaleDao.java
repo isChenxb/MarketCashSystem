@@ -29,7 +29,7 @@ import util.Validate;
 public class SaleDao {
 	
 	//收银功能
-	    public void getMoney(UserVo user) throws SQLException, IOException{
+	public void getMoney(UserVo user) throws SQLException, IOException{
 		DBManager db=new DBManager();
 		Tools ts=new Tools();
 		Scanner input=new Scanner(System.in);
